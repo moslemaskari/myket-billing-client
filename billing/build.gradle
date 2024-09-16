@@ -1,5 +1,6 @@
 plugins {
     id "com.android.library"
+    id 'maven-publish'
 }
 
 android {
@@ -22,6 +23,25 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'com.github.moslemaskari'
+            artifactId = 'myket-billing-client'
+            version = '1.0.0'
+        }
+    }
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/moslemaskari/myket-billing-client")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+            }
+        }
     }
 }
 
